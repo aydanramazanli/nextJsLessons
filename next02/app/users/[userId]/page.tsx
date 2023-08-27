@@ -1,6 +1,7 @@
 import getUsers from "@/app/lib/getUsers";
 import getUserPosts from "@/app/lib/getUserPosts";
 import UserPosts from "./components/UserPosts";
+import getAllUsers from "@/app/lib/getAllUsers";
 import type { Metadata } from "next";
 
 type Params = {
@@ -9,18 +10,16 @@ type Params = {
   };
 };
 
-
-
-export async function generateMetadata({ params: { userId } }: Params): Promise<Metadata> {
+export async function generateMetadata({
+  params: { userId },
+}: Params): Promise<Metadata> {
   const userData: Promise<UserType> = getUsers(userId);
   const user: UserType = await userData;
   return {
     title: user.name,
     description: `This is the page of ${user.name}`,
   };
-
 }
-
 
 export default async function UserPage({ params: { userId } }: Params) {
   const userDatas: Promise<UserType> = getUsers(userId);
@@ -35,4 +34,11 @@ export default async function UserPage({ params: { userId } }: Params) {
       <UserPosts promise={userPostsData} />
     </>
   );
+}
+
+export async function generateStaticParams() {
+  const userDatas: Promise<UserType[]> = getAllUsers();
+  const users = await userDatas;
+
+  return users.map((user) => ({ userId: user.id.toString() }));
 }
