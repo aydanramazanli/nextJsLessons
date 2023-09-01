@@ -36,9 +36,12 @@ export default async function UserPage({ params: { userId } }: Params) {
   );
 }
 
-export async function generateStaticParams() {
-  const userDatas: Promise<UserType[]> = getAllUsers();
-  const users = await userDatas;
 
-  return users.map((user) => ({ userId: user.id.toString() }));
+export async function generateStaticParams(){
+  const userDatas: Promise<UserType[]> = getAllUsers()
+  const users = await userDatas
+
+  return users.map(user =>(
+    {userId: user.id.toString()}
+  ))
 }
