@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" >
       <body className={`dark:bg-slate-800 ${inter.className}`}>
         <Navbar/>
         <MyProfile/>
